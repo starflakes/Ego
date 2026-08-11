@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>EGO</h1>
+
+{% if not authorized %}
+<div class="card">
+  <p>Connect your YouTube channel before scheduling clips.</p>
+  <a href="{{ url_for('auth_start') }}"><button type="button" style="width:100%">Connect YouTube</button></a>
+</div>
+{% else %}
+<div class="card"><p>YouTube connected ✓</p></div>
+{% endif %}
+
+<div class="card">
+<form action="{{ url_for('clip') }}" method="post" enctype="multipart/form-data">
+  <label>Video file</label>
+  <input type="file" name="video" accept="video/*" required>
+
+  <label>Number of clips</label>
+  <input type="number" name="num_clips" value="10" min="1" max="30">
+
+  <div class="row"><input type="checkbox" name="vertical" checked id="v"><label for="v" style="margin:0">Vertical (9:16 for Shorts)</label></div>
+  <div class="row"><input type="checkbox" name="captions" checked id="c"><label for="c" style="margin:0">Burn in captions</label></div>
+
+  <button type="submit">Transcribe &amp; cut clips</button>
+</form>
+<small>This can take a few minutes for a 10-minute video — the page will load the results once it's done.</small>
+</div>
+{% endblock %}

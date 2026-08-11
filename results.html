@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Your clips</h1>
+
+{% for c in clips %}
+<div class="card">
+  <video controls src="{{ url_for('serve_clip', batch=batch, filename=c.file) }}"></video>
+  <p><strong>{{ c.title }}</strong></p>
+  <small>{{ "%.0f"|format(c.end - c.start) }}s</small>
+</div>
+{% endfor %}
+
+<div class="card">
+{% if authorized %}
+<form action="{{ url_for('schedule', batch=batch) }}" method="post">
+  <label>Uploads per day</label>
+  <input type="number" name="per_day" value="5" min="1" max="6">
+  <label>Times of day (comma separated, 24h)</label>
+  <input type="text" name="times" value="09:00,17:00">
+  <div class="row"><input type="checkbox" name="shorts" checked id="s"><label for="s" style="margin:0">Tag as #Shorts</label></div>
+  <button type="submit">Schedule all to YouTube</button>
+</form>
+{% else %}
+<p>Connect YouTube on the <a href="{{ url_for('index') }}">home page</a> first.</p>
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Scheduled</h1>
+{% for r in results %}
+<div class="card">
+  <p><a href="{{ r.url }}">{{ r.file }}</a></p>
+  <small>Publishes {{ r.publish_at }}</small>
+</div>
+{% endfor %}
+<a href="{{ url_for('index') }}"><button type="button" style="width:100%">Clip another video</button></a>
+{% endblock %}
